@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2021 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -292,7 +292,7 @@ class XmlView extends HtmlView
 			// Special case: just one minor version
 			if (count($minorVersions) == 1)
 			{
-				$retVersions[] = sprintf('%s\.%s', $major, array_shift($minorVersions));
+				$retVersions[] = sprintf('%s.%s', $major, array_shift($minorVersions));
 
 				continue;
 			}

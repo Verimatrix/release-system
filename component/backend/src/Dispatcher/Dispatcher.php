@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2021 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -102,7 +102,7 @@ class Dispatcher extends ComponentDispatcher
 
 	}
 
-	private function applyViewAndController(): void
+	protected function applyViewAndController(): void
 	{
 		$controller = $this->input->getCmd('controller', null);
 		$view       = $this->input->getCmd('view', null);
@@ -128,6 +128,10 @@ class Dispatcher extends ComponentDispatcher
 		{
 			$view = $controller;
 		}
+		else
+		{
+			$view = $controller;
+		}
 
 		$controller = strtolower($controller);
 		$view       = strtolower($view);
@@ -137,7 +141,7 @@ class Dispatcher extends ComponentDispatcher
 		$this->input->set('task', $task);
 	}
 
-	private function mapView(string $view)
+	protected function mapView(string $view)
 	{
 		$view = strtolower($view);
 

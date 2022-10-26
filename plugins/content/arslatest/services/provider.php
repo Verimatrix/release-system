@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2021 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -14,7 +14,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Plugin\Content\Arsdlid\Extension\Arsdlid;
+use Joomla\Plugin\Content\Arslatest\Extension\Arslatest;
 
 return new class implements ServiceProviderInterface {
 	/**
@@ -35,7 +35,7 @@ return new class implements ServiceProviderInterface {
 				$dispatcher = $container->get(DispatcherInterface::class);
 				$factory    = $container->get(MVCFactoryInterface::class);
 
-				return new Arsdlid(
+				return new Arslatest(
 					$dispatcher,
 					(array) $plugin,
 					$factory

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2021 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -154,7 +154,7 @@ $userLayout = new FileLayout('akeeba.ars.common.user', JPATH_ADMINISTRATOR . '/c
 
 								<td>
 									<div class="fw-bold">
-										<?= HTMLHelper::_('ars.formatDate', $item->accessed_on, true) ?>
+										<?= HTMLHelper::_('ars.formatDate', $item->accessed_on) ?>
 									</div>
 									<div class="text-monospace text-success my-1">
 										<?= $this->escape($item->ip) ?>

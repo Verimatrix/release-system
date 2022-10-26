@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2021 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryAwareTrait;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\User\User;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 use Joomla\String\StringHelper;
@@ -62,7 +63,7 @@ class Arsdlid extends CMSPlugin implements SubscriberInterface
 
 	private static function process(array $match): string
 	{
-		$user = Factory::getApplication()->getIdentity();
+		$user = Factory::getApplication()->getIdentity() ?: new User();
 
 		if ($user->guest)
 		{

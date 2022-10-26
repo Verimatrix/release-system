@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2021 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -11,6 +11,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Toolbar\Toolbar;
 
 /** @var \Akeeba\Component\ARS\Site\View\Dlidlabel\HtmlView $this */
 
@@ -22,7 +23,7 @@ $user = Factory::getApplication()->getIdentity();
 ?>
 
 <div class="card card-body mb-3">
-	<?= \Joomla\CMS\Toolbar\Toolbar::getInstance()->render(); ?>
+	<?= Toolbar::getInstance()->render(); ?>
 </div>
 
 <form action="<?php echo Route::_('index.php?option=com_ars&view=dlidlabel&layout=edit&id=' . (int) $this->item->id); ?>"
@@ -38,5 +39,6 @@ $user = Factory::getApplication()->getIdentity();
 	</div>
 
 	<input type="hidden" name="task" value="">
+	<input type="hidden" name="returnurl" value="<?= base64_encode($this->returnURL) ?>">
 	<?php echo HTMLHelper::_('form.token'); ?>
 </form>

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2021 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -18,5 +18,5 @@ defined('_JEXEC') or die;
 		</div>
 	<?php endif; ?>
 
-	<?= $this->loadAnyTemplate('categories/generic', true, ['section' => 'normal', 'title' => 'COM_ARS_CATEGORY_TYPE_BLEEDINGEDGE']) ?>
+	<?= $this->loadAnyTemplate('categories/generic', true, ['section' => 'bleedingedge', 'title' => 'COM_ARS_CATEGORY_TYPE_BLEEDINGEDGE']) ?>
 </div>

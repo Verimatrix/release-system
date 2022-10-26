@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2021 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -13,6 +13,7 @@ use Akeeba\Component\ARS\Administrator\Mixin\ControllerEvents;
 use Akeeba\Component\ARS\Administrator\Mixin\RegisterControllerTasks;
 use Akeeba\Component\ARS\Administrator\Mixin\ReusableModels;
 use Akeeba\Component\ARS\Administrator\Model\ControlpanelModel;
+use Akeeba\Component\ARS\Administrator\Model\UpgradeModel;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -38,6 +39,11 @@ class ControlpanelController extends BaseController
 
 		$model->saveMagicVariables();
 
-		$this->display(false);
+		// Make sure all of my extensions are assigned to my package.
+		/** @var UpgradeModel $upgradeModel */
+		$upgradeModel = $this->getModel('Upgrade', 'Administrator');
+		$upgradeModel->adoptMyExtensions();
+
+		$this->setRedirect('index.php?option=com_cpanel&view=cpanel&dashboard=com_ars.ars');
 	}
 }

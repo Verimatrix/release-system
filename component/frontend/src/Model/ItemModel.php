@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2021 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -81,7 +81,7 @@ class ItemModel extends BaseDatabaseModel
 		}
 		catch (Exception $e)
 		{
-			throw new RuntimeException('Not found', 404);
+			throw new RuntimeException('Not found', 404, $e);
 		}
 	}
 
@@ -262,7 +262,7 @@ class ItemModel extends BaseDatabaseModel
 
 		// Use 1M chunks for echoing the data to the browser
 		$chunkSize = self::CHUNK_SIZE; //1M chunks
-		$handle    = @fopen($filename, 'rb');
+		$handle    = @fopen($filename, 'r');
 
 		if ($handle === false)
 		{

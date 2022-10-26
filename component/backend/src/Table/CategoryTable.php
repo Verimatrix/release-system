@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2021 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -137,6 +137,9 @@ class CategoryTable extends AbstractTable
 
 		// Clamp 'published' to [0, 1]
 		$this->published = max(0, min($this->published, 1));
+
+		// Make sure a non-empty ordering is set
+		$this->ordering = $this->ordering ?? 0;
 	}
 
 	protected function _getAssetTitle()

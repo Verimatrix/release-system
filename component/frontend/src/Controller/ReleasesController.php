@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2021 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -74,7 +74,7 @@ class ReleasesController extends BaseController
 		}
 
 		// Apply the Order By from the page parameters (default: ordering)
-		$this->applyReleaseOrderBy($params->get('orderby', 'order'), $model);
+		$this->applyReleaseOrderBy($params->get('rel_orderby', 'order'), $model);
 
 		// Get pagination options from the request
 		$value = $this->app->input->get('limit', $this->app->get('list_limit', 0), 'uint');

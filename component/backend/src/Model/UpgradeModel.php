@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2021 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -18,6 +18,7 @@ use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\CMS\Table\Extension;
+use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use RuntimeException;
@@ -214,6 +215,7 @@ class UpgradeModel extends BaseModel
 					'uninstallExtensions',
 					'publishExtensionsOnInstall',
 					'removeObsoleteFiles',
+					'adoptMyExtensions',
 				]);
 
 				$this->runCustomHandlerEvent('onInstall', $type, $parent);
@@ -226,6 +228,7 @@ class UpgradeModel extends BaseModel
 					'removeObsoleteFiles',
 					'uninstallExtensions',
 					'uninstallProExtensions',
+					'adoptMyExtensions',
 				]);
 
 				$this->runCustomHandlerEvent('onUpdate', $type, $parent);
@@ -333,7 +336,68 @@ class UpgradeModel extends BaseModel
 	}
 
 	/**
+	 * Adopt the extensions by new package.
+	 *
+	 * This modifies the package_id column of the #__extensions table for the records of the extensions declared in the
+	 * new package's manifest. This allows you to use Discover to install new extensions without leaving them “orphan”
+	 * of a package in the #__extensions table, something which could cause problems when running Joomla! Update.
+	 *
+	 * @return  void
+	 */
+	public function adoptMyExtensions(): void
+	{
+		// Get the extension ID of the new package
+		$newPackageId = $this->getExtensionId(self::PACKAGE_NAME);
+
+		if (empty($newPackageId))
+		{
+			return;
+		}
+
+		// Get the extension IDs
+		$extensionIDs = array_map([$this, 'getExtensionId'], $this->getExtensionsFromPackage(self::PACKAGE_NAME));
+		$extensionIDs = array_filter($extensionIDs, function ($x) {
+			return !empty($x);
+		});
+
+		if (empty($extensionIDs))
+		{
+			return;
+		}
+
+		/**
+		 * Looks stupid? This realigns the integer keys because whereIn() expects 0-based, monotonically increasing
+		 * array keys. Otherwise it ends up emitting null values. GROAN!
+		 */
+		$extensionIDs = array_merge($extensionIDs);
+
+		// Reassign all extensions
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true)
+			->update($db->quoteName('#__extensions'))
+			->set($db->qn('package_id') . ' = :package_id')
+			->whereIn($db->qn('extension_id'), $extensionIDs, ParameterType::INTEGER)
+			->bind(':package_id', $newPackageId, ParameterType::INTEGER);
+		$db->setQuery($query)->execute();
+	}
+
+	/**
 	 * Handle the package upgrade from the old to the new package.
+	 *
+	 * These versions would also run on Joomla 4 but are replaced with this new package. Since the package name is
+	 * different but some of the included extensions are under the same name we need to deal with them. Namely, we need
+	 * to:
+	 *
+	 * * Change the `package_id` in the `#__extensions` table to that of the new `pkg_akeebabackup` package. This is
+	 *   currently not used anywhere(?) but it might be the case that Joomla finalyl decides to prevent standalone
+	 *   uninstallation of extensions which are part of a package.
+	 * * Remove the extensions from the `#__akeeba_common` entries which mark them as dependent on FOF 3.x or 4.x. This
+	 *   is so that FOF 3.x / 4.x can be uninstalled when the old package (`pkg_akeeba`) is being uninstalled, since
+	 *   these extensions will NOT be removed with it, per the item below.
+	 * * Edit the cached XML manifest file of the old `pkg_akeeba` package so that it doesn't try to uninstall the
+	 *   extensions it has in common with the new `pkg_akeebabackup` package. Joomla SHOULD figure this out by means of
+	 *   the recorded `package_id` in the `#__extensions` table but it currently doesn't seem to have any code to do
+	 *   that. Therefore editing the cached XML manifest is the only reasonable way to do this.
 	 *
 	 * @return  void
 	 * @noinspection PhpUnused
@@ -382,7 +446,7 @@ class UpgradeModel extends BaseModel
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->update($db->quoteName('#__extensions'))
-			->set($db->qn('state') . ' = 1')
+			->set($db->qn('enabled') . ' = 1')
 			->whereIn($db->quoteName('extension_id'), $extensionIDs);
 		try
 		{
@@ -434,8 +498,72 @@ class UpgradeModel extends BaseModel
 				continue;
 			}
 
-			Folder::delete($folder);
+			$this->deleteFolder($folder);
 		}
+	}
+
+	private function deleteFolder(string $path): bool
+	{
+		// If the folder does not exist in the requested form return early.
+		$hasMixedCase = is_dir($path);
+
+		if (!$hasMixedCase)
+		{
+			return false;
+		}
+
+		// If the folder is all lowercase return early.
+		$baseName          = basename($path);
+		$lowercaseBaseName = strtolower($baseName);
+
+		if ($baseName === $lowercaseBaseName)
+		{
+			return $hasMixedCase && Folder::delete($path);
+		}
+
+		// We have a mixed case folder. Further investigation necessary.
+		$altPath      = dirname($path) . '/' . $lowercaseBaseName;
+		$hasLowercase = is_dir($altPath);
+
+		// If the lowercase path does not exist we have a case-sensitive filesystem. Return early.
+		if (!$hasLowercase)
+		{
+			return $hasMixedCase && Folder::delete($path);
+		}
+
+		// Both folders exist. Are they the same?
+		$testBasename      = UserHelper::genRandomPassword(8) . '.dat';
+		$data              = UserHelper::genRandomPassword(32);
+		$lowercaseTestFile = $altPath . '/' . $testBasename;
+		$uppercaseTestFile = $path . '/' . $testBasename;
+
+		File::write($lowercaseTestFile, $data);
+
+		$readData = file_get_contents($uppercaseTestFile);
+
+		File::delete($lowercaseTestFile);
+
+		// The two folders are different. We have a case-sensitive filesystem. Proceed with deletion.
+		if ($readData !== $data)
+		{
+			return Folder::delete($path);
+		}
+
+		/**
+		 * The two folders are identical.
+		 *
+		 * It is impossible to know if the folder is written on disk as lowercase or mixed case. We must rename it to
+		 * all lowercase. If we don't, moving the site to a case-sensitive filesystem will break it (the folder will be
+		 * in the wrong case!). Therefore we have to do a two-step process to effect the rename on a case-insensitive
+		 * filesystem...
+		 */
+		$intermediateBasename = $lowercaseBaseName . '_' . UserHelper::genRandomPassword(8);
+		$intermediatePath     = dirname($path) . '/' . $intermediateBasename;
+
+		Folder::move($path, $intermediatePath);
+		Folder::move($intermediatePath, $altPath);
+
+		return false;
 	}
 
 	/**
@@ -590,7 +718,7 @@ class UpgradeModel extends BaseModel
 		try
 		{
 			$json = $db->setQuery($query)->loadResult();
-			$list = json_decode($json, true);
+			$list = ($json === null) ? [] : json_decode($json, true);
 		}
 		catch (RuntimeException $e)
 		{

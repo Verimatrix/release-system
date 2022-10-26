@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2021 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -178,7 +178,7 @@ class AutodescriptionModel extends AdminModel
 		// Set up the created / modified date
 		$date  = Factory::getDate();
 		$user  = Factory::getApplication()->getIdentity();
-		$isNew = !empty($table->getId());
+		$isNew = empty($table->getId());
 
 		if ($isNew)
 		{

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2021 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -14,22 +14,18 @@ use Joomla\CMS\Language\Text;
 ?>
 
 <div class="card">
-	<div class="card-header">
-		<h3>
-			<?= Text::_('COM_ARS_CPANEL_DLSTATSMONTHLY_LABEL') ?>
-		</h3>
-	</div>
+	<h3 class="card-header">
+		<?= Text::_('COM_ARS_CPANEL_DLSTATSMONTHLY_LABEL') ?>
+	</h3>
 	<div class="card-body">
 		<canvas id="mdrChart" width="400" height="200"></canvas>
 	</div>
 </div>
 
 <div class="card">
-	<div class="card-header">
-		<h3>
-			<?= Text::_('COM_ARS_CPANEL_DLSTATSDETAILS_LABEL') ?>
-		</h3>
-	</div>
+	<h3 class="card-header">
+		<?= Text::_('COM_ARS_CPANEL_DLSTATSDETAILS_LABEL') ?>
+	</h3>
 	<div class="card-body">
 		<table class="table table-striped">
 			<tr>

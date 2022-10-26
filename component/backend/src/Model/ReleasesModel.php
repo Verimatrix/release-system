@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2021 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -85,7 +85,7 @@ class ReleasesModel extends ListModel
 		}
 
 		// Get which directory to use
-		$directory = JPATH_ROOT . '/' . $directory;
+		$directory = JPATH_ROOT . '/' . $category->directory;
 
 		if (!Folder::exists($directory))
 		{
@@ -125,13 +125,19 @@ class ReleasesModel extends ListModel
 		$ret = [];
 
 		/** @var ItemsModel $itemsModel */
-		$itemsModel = $this->getMVCFactory()->createModel('Items', 'Administrator');
+		$itemsModel = $this->getMVCFactory()->createModel('Items', 'Administrator', ['ignore_request' => true]);
 		$itemsModel->setState('filter.release_id', $release->id);
 		$items = $itemsModel->getItems();
 
 		foreach ($items as $item)
 		{
 			$environments = $item->environments;
+
+			if (!empty($environments) && is_string($environments))
+			{
+				$test         = @json_decode($environments);
+				$environments = $test ?? array_map('intval', explode(',', $environments));
+			}
 
 			if (empty($environments) || !is_array($environments))
 			{
@@ -148,8 +154,8 @@ class ReleasesModel extends ListModel
 
 		$ret = array_unique($ret);
 
-		$db = $this->getDbo();
-		$query = $db->getQuery(true)
+		$db     = $this->getDbo();
+		$query  = $db->getQuery(true)
 			->select($db->quoteName('title'))
 			->from($db->quoteName('#__ars_environments'))
 			->whereIn($db->quoteName('id'), $ret);
@@ -168,57 +174,6 @@ class ReleasesModel extends ListModel
 		});
 
 		return $titles;
-	}
-
-	protected function populateState($ordering = 'r.id', $direction = 'desc')
-	{
-		$app = Factory::getApplication();
-
-		$search = $app->getUserStateFromRequest($this->context . 'filter.search', 'filter_search', '', 'string');
-		$this->setState('filter.search', $search);
-
-		$catid = $app->getUserStateFromRequest($this->context . 'filter.category_id', 'filter_category_id', '', 'string');
-		$this->setState('filter.category_id', ($catid === '') ? $catid : (int) $catid);
-
-		$published = $app->getUserStateFromRequest($this->context . 'filter.published', 'filter_published', '', 'string');
-		$this->setState('filter.published', ($published === '') ? $published : (int) $published);
-
-		$maturity = $app->getUserStateFromRequest($this->context . 'filter.maturity', 'filter_maturity', '', 'string');
-		$this->setState('filter.maturity', $maturity);
-
-		$showUnauthLinks = $app->getUserStateFromRequest($this->context . 'filter.show_unauth_links', 'filter_show_unauth_links', '', 'string');
-		$this->setState('filter.show_unauth_links', ($showUnauthLinks === '') ? $showUnauthLinks : (int) $showUnauthLinks);
-
-		$access = $app->getUserStateFromRequest($this->context . 'filter.access', 'filter_access', '', 'string');
-		$access = is_array($access) ? ArrayHelper::toInteger($access) : (
-		($access === '') ? $access : (int) $access
-		);
-		$this->setState('filter.access', $access);
-
-		$language = $app->getUserStateFromRequest($this->context . 'filter.language', 'filter_language', '', 'string');
-		$this->setState('filter.language', $language);
-
-		$this->setState('filter.allowUnauth', 0);
-		$this->setState('filter.minMaturity', 'alpha');
-		$this->setState('filter.latest', false);
-
-		parent::populateState($ordering, $direction);
-	}
-
-	protected function getStoreId($id = '')
-	{
-		// Compile the store id.
-		$id .= ':' . $this->getState('filter.search');
-		$id .= ':' . $this->getState('filter.category_id');
-		$id .= ':' . $this->getState('filter.published');
-		$id .= ':' . $this->getState('filter.maturity');
-		$id .= ':' . $this->getState('filter.show_unauth_links');
-		$id .= ':' . $this->getState('filter.language');
-		$id .= ':' . $this->getState('filter.minMaturity');
-		$id .= ':' . ($this->getState('filter.latest') ? 'latest' : '');
-		$id .= ':' . serialize($this->getState('filter.access'));
-
-		return parent::getStoreId($id);
 	}
 
 	protected function getListQuery()
@@ -403,5 +358,56 @@ class ReleasesModel extends ListModel
 		$query->order($ordering);
 
 		return $query;
+	}
+
+	protected function getStoreId($id = '')
+	{
+		// Compile the store id.
+		$id .= ':' . $this->getState('filter.search');
+		$id .= ':' . $this->getState('filter.category_id');
+		$id .= ':' . $this->getState('filter.published');
+		$id .= ':' . $this->getState('filter.maturity');
+		$id .= ':' . $this->getState('filter.show_unauth_links');
+		$id .= ':' . serialize($this->getState('filter.language'));
+		$id .= ':' . $this->getState('filter.minMaturity');
+		$id .= ':' . ($this->getState('filter.latest') ? 'latest' : '');
+		$id .= ':' . serialize($this->getState('filter.access'));
+
+		return parent::getStoreId($id);
+	}
+
+	protected function populateState($ordering = 'r.id', $direction = 'desc')
+	{
+		$app = Factory::getApplication();
+
+		$search = $app->getUserStateFromRequest($this->context . 'filter.search', 'filter_search', '', 'string');
+		$this->setState('filter.search', $search);
+
+		$catid = $app->getUserStateFromRequest($this->context . 'filter.category_id', 'filter_category_id', '', 'string');
+		$this->setState('filter.category_id', ($catid === '') ? $catid : (int) $catid);
+
+		$published = $app->getUserStateFromRequest($this->context . 'filter.published', 'filter_published', '', 'string');
+		$this->setState('filter.published', ($published === '') ? $published : (int) $published);
+
+		$maturity = $app->getUserStateFromRequest($this->context . 'filter.maturity', 'filter_maturity', '', 'string');
+		$this->setState('filter.maturity', $maturity);
+
+		$showUnauthLinks = $app->getUserStateFromRequest($this->context . 'filter.show_unauth_links', 'filter_show_unauth_links', '', 'string');
+		$this->setState('filter.show_unauth_links', ($showUnauthLinks === '') ? $showUnauthLinks : (int) $showUnauthLinks);
+
+		$access = $app->getUserStateFromRequest($this->context . 'filter.access', 'filter_access', '', 'string');
+		$access = is_array($access) ? ArrayHelper::toInteger($access) : (
+		($access === '') ? $access : (int) $access
+		);
+		$this->setState('filter.access', $access);
+
+		$language = $app->getUserStateFromRequest($this->context . 'filter.language', 'filter_language', '', 'string');
+		$this->setState('filter.language', $language);
+
+		$this->setState('filter.allowUnauth', 0);
+		$this->setState('filter.minMaturity', 'alpha');
+		$this->setState('filter.latest', false);
+
+		parent::populateState($ordering, $direction);
 	}
 }

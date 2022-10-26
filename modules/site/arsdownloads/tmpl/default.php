@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2021 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -65,7 +65,7 @@ $postText = $params->get('posttext', '');
 				</th>
 				<td>
 					<a class="btn btn-primary btn-sm"
-					   href="<?= Route::_('index.php?option=com_ars&view=item&format=raw&item_id=' . $item->id) ?>">
+					   href="<?= Route::_('index.php?option=com_ars&view=item&format=raw&item_id=' . $item->item_id) ?>">
 						<span class="fa fa-download-file"></span>
 						<?= Text::_('MOD_ARSDOWNLOADS_LBL_DOWNLOAD'); ?>
 					</a>

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2021 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -69,13 +69,13 @@ class CategoriesModel extends ListModel
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id .= ':' . $this->getState('filter.search');
-		$id .= ':' . $this->getState('filter.published');
-		$id .= ':' . $this->getState('filter.show_unauth_links');
-		$id .= ':' . $this->getState('filter.supported');
-		$id .= ':' . $this->getState('filter.language');
-		$id .= ':' . $this->getState('filter.allowUnauth');
-		$id .= ':' . serialize($this->getState('filter.access'));
+		$id    .= ':' . $this->getState('filter.search');
+		$id    .= ':' . $this->getState('filter.published');
+		$id    .= ':' . $this->getState('filter.show_unauth_links');
+		$id    .= ':' . $this->getState('filter.supported');
+		$id    .= ':' . serialize($this->getState('filter.language'));
+		$id    .= ':' . $this->getState('filter.allowUnauth');
+		$id    .= ':' . serialize($this->getState('filter.access'));
 
 		return parent::getStoreId($id);
 	}

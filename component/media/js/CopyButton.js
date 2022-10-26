@@ -1,8 +1,9 @@
-/*
+/**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2021 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
+"use strict";
 
 window.akeeba                          = window.akeeba || {};
 window.akeeba.ReleaseSystem            = window.akeeba.ReleaseSystem || {};

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
+<!--~
   ~ @package   AkeebaReleaseSystem
-  ~ @copyright Copyright (c)2010-2021 Nicholas K. Dionysopoulos / Akeeba Ltd
+  ~ @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
   ~ @license   GNU General Public License version 3, or later
   -->
 
@@ -20,6 +20,7 @@
                 name="category"
                 type="ArsCategories"
                 label="COM_ARS_AUTODESCRIPTION_FIELD_CATEGORY"
+                layout="joomla.form.field.list-fancy-select"
                 required="true"
         >
         </field>
@@ -39,6 +40,16 @@
                 default=""
                 required="true"
         />
+
+        <field
+                name="access"
+                type="accesslevel"
+                label="JFIELD_ACCESS_LABEL"
+                filter="UINT"
+                validate="options"
+        >
+            <option></option>
+        </field>
 
         <field
                 name="description"

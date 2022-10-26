@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2021 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -149,7 +149,7 @@ class ItemTable extends AbstractTable
 			$filename  = pathinfo($filename, PATHINFO_FILENAME);
 
 			$this->alias = ApplicationHelper::stringURLSafe($filename) .
-				(empty($extension) ? '' : ('.' . ApplicationHelper::stringURLSafe($extension)));
+				(empty($extension) ? '' : ('-' . ApplicationHelper::stringURLSafe($extension)));
 		}
 
 		$this->assertNotEmpty($this->alias, 'COM_ARS_ITEM_ERR_NEEDS_ALIAS');
@@ -231,6 +231,9 @@ class ItemTable extends AbstractTable
 				$dummy = @unlink($filename) || File::delete($filename);
 			}
 		}
+
+		// Make sure a non-empty ordering is set
+		$this->ordering = $this->ordering ?? 0;
 	}
 
 	/**
@@ -246,15 +249,16 @@ class ItemTable extends AbstractTable
 		$db = $this->getDbo();
 
 		$subQuery = $db->getQuery(true)
-			->select($db->qn('category_id'))
-			->from($db->qn('#__ars_releases'))
-			->where($db->qn('id') . ' = ' . $db->q($this->release_id));
+			->select($db->quoteName('category_id'))
+			->from($db->quoteName('#__ars_releases'))
+			->where($db->quoteName('id') . ' = ' . $db->q($this->release_id));
 
 		$query = $db->getQuery(true)
 			->select('*')
-			->from($db->qn('#__ars_autoitemdesc'))
-			->where($db->qn('category') . ' IN (' . $subQuery . ')')
-			->where($db->qn('published') . ' != 0');
+			->from($db->quoteName('#__ars_autoitemdesc'))
+			->where($db->quoteName('category') . ' IN (' . $subQuery . ')')
+			->where($db->quoteName('published') . ' != 0')
+			->order($db->quoteName('id') . ' ASC');
 
 		$autoItems = $db->setQuery($query)->loadObjectList() ?: [];
 
@@ -283,13 +287,16 @@ class ItemTable extends AbstractTable
 		}
 
 		$auto = new AutodescriptionTable($this->getDbo());
-		$auto->bind($autoItems);
+		$auto->bind(array_shift($autoItems));
 
 		// Apply environments
 		$this->environments = $this->environments ?: $auto->environments;
 
 		// Apply title
 		$this->title = trim($this->title ?? '') ?: $auto->title;
+
+		// Apply access
+		$this->access = $this->access !== 1 || !$auto->access ? $this->access : $auto->access ;
 
 		// Apply description, if necessary
 		$stripDesc = trim(strip_tags($this->description));

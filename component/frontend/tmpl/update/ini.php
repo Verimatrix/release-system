@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2021 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -26,7 +26,7 @@ if (count($this->items))
 		return 'php/' . $x;
 	}, $parsedPlatforms['php']));
 
-	$moreURL = Route::_('index.php?option=com_ars&view=Items&release_id=' . $item->release_id, false, Route::TLS_IGNORE, true);
+	$moreURL = Route::_('index.php?option=com_ars&view=items&&release_id=' . $item->release_id . '&category_id=' . $item->category, false, Route::TLS_IGNORE, true);
 	$date    = new Date($item->created);
 }
 

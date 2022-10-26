@@ -1,5 +1,10 @@
-CREATE TABLE IF NOT EXISTS `#__ars_categories`
-(
+/**
+ * @package   AkeebaReleaseSystem
+ * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU General Public License version 3, or later
+ */
+
+CREATE TABLE IF NOT EXISTS `#__ars_categories` (
     `id`                bigint(20)                     NOT NULL AUTO_INCREMENT,
     `asset_id`          int(10) UNSIGNED               NOT NULL DEFAULT 0,
     `title`             varchar(255)                   NOT NULL,
@@ -22,12 +27,9 @@ CREATE TABLE IF NOT EXISTS `#__ars_categories`
     `language`          char(7)                        NOT NULL DEFAULT '*',
     PRIMARY KEY (`id`),
     KEY `#__ars_categories_published` (`published`)
-) ENGINE InnoDB
-  DEFAULT CHARSET = utf8mb4
-  DEFAULT COLLATE = utf8mb4_unicode_ci;
+) ENGINE InnoDB DEFAULT CHARSET = utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `#__ars_releases`
-(
+CREATE TABLE IF NOT EXISTS `#__ars_releases` (
     `id`                bigint(20)                          NOT NULL AUTO_INCREMENT,
     `category_id`       BIGINT(20) UNSIGNED                 NOT NULL,
     `version`           VARCHAR(255)                        NOT NULL,
@@ -50,12 +52,9 @@ CREATE TABLE IF NOT EXISTS `#__ars_releases`
     PRIMARY KEY `id` (`id`),
     KEY `#__ars_releases_category_id` (`category_id`),
     KEY `#__ars_releases_published` (`published`)
-) ENGINE InnoDB
-  DEFAULT CHARSET = utf8mb4
-  DEFAULT COLLATE = utf8mb4_unicode_ci;
+) ENGINE InnoDB DEFAULT CHARSET = utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `#__ars_items`
-(
+CREATE TABLE IF NOT EXISTS `#__ars_items` (
     `id`                bigint(20)          NOT NULL AUTO_INCREMENT,
     `release_id`        BIGINT(20)          NOT NULL,
     `title`             VARCHAR(255)        NOT NULL,
@@ -89,12 +88,9 @@ CREATE TABLE IF NOT EXISTS `#__ars_items`
     KEY `#__ars_items_release_id` (`release_id`),
     KEY `#__ars_items_updatestream` (`updatestream`),
     KEY `#__ars_items_published` (`published`)
-) ENGINE InnoDB
-  DEFAULT CHARSET = utf8mb4
-  DEFAULT COLLATE = utf8mb4_unicode_ci;
+) ENGINE InnoDB DEFAULT CHARSET = utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `#__ars_log`
-(
+CREATE TABLE IF NOT EXISTS `#__ars_log` (
     `id`          bigint(20)          NOT NULL AUTO_INCREMENT,
     `user_id`     BIGINT(20) UNSIGNED NOT NULL,
     `item_id`     BIGINT(20) UNSIGNED NOT NULL,
@@ -107,12 +103,9 @@ CREATE TABLE IF NOT EXISTS `#__ars_log`
     KEY `#__ars_log_authorized` (`authorized`),
     KEY `#__ars_log_itemid` (`item_id`),
     KEY `#__ars_log_userid` (`user_id`)
-) ENGINE InnoDB
-  DEFAULT CHARSET = utf8mb4
-  DEFAULT COLLATE = utf8mb4_unicode_ci;
+) ENGINE InnoDB DEFAULT CHARSET = utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `#__ars_updatestreams`
-(
+CREATE TABLE IF NOT EXISTS `#__ars_updatestreams` (
     `id`               bigint(20)          NOT NULL AUTO_INCREMENT,
     `name`             VARCHAR(255)        NOT NULL,
     `alias`            VARCHAR(255)        NOT NULL,
@@ -132,16 +125,14 @@ CREATE TABLE IF NOT EXISTS `#__ars_updatestreams`
     `published`        int(11)             NOT NULL DEFAULT '1',
     PRIMARY KEY `id` (`id`),
     KEY `#__ars_updatestreams_published` (`published`)
-) ENGINE InnoDB
-  DEFAULT CHARSET = utf8mb4
-  DEFAULT COLLATE = utf8mb4_unicode_ci;
+) ENGINE InnoDB DEFAULT CHARSET = utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `#__ars_autoitemdesc`
-(
+CREATE TABLE IF NOT EXISTS `#__ars_autoitemdesc` (
     `id`               bigint(20)          NOT NULL AUTO_INCREMENT,
     `category`         bigint(20) unsigned NOT NULL,
     `packname`         varchar(255)                 DEFAULT NULL,
     `title`            varchar(255)        NOT NULL,
+    `access`           int(11)             NOT NULL DEFAULT '0',
     `description`      MEDIUMTEXT          NOT NULL,
     `environments`     varchar(100)                 DEFAULT NULL,
     `created`          datetime            NULL     DEFAULT NULL,
@@ -152,12 +143,9 @@ CREATE TABLE IF NOT EXISTS `#__ars_autoitemdesc`
     `checked_out_time` datetime            NULL     DEFAULT NULL,
     `published`        int(11)             NOT NULL DEFAULT '1',
     PRIMARY KEY `id` (`id`)
-) ENGINE InnoDB
-  DEFAULT CHARSET = utf8mb4
-  DEFAULT COLLATE = utf8mb4_unicode_ci;
+) ENGINE InnoDB DEFAULT CHARSET = utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `#__ars_environments`
-(
+CREATE TABLE IF NOT EXISTS `#__ars_environments` (
     `id`               bigint(20)   NOT NULL AUTO_INCREMENT,
     `title`            varchar(100) NOT NULL DEFAULT '',
     `xmltitle`         varchar(20)  NOT NULL DEFAULT '1.0',
@@ -168,12 +156,9 @@ CREATE TABLE IF NOT EXISTS `#__ars_environments`
     `checked_out`      int(11)      NOT NULL DEFAULT '0',
     `checked_out_time` datetime     NULL     DEFAULT NULL,
     PRIMARY KEY (`id`)
-) ENGINE InnoDB
-  DEFAULT CHARSET = utf8mb4
-  DEFAULT COLLATE = utf8mb4_unicode_ci;
+) ENGINE InnoDB DEFAULT CHARSET = utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `#__ars_dlidlabels`
-(
+CREATE TABLE IF NOT EXISTS `#__ars_dlidlabels` (
     `id`               bigint(20) unsigned NOT NULL AUTO_INCREMENT,
     `user_id`          bigint(20) unsigned NOT NULL,
     `primary`          TINYINT(1)          NOT NULL DEFAULT 0,
@@ -187,9 +172,7 @@ CREATE TABLE IF NOT EXISTS `#__ars_dlidlabels`
     `checked_out`      int(11)             NOT NULL DEFAULT '0',
     `checked_out_time` datetime            NULL     DEFAULT NULL,
     PRIMARY KEY (`id`)
-) ENGINE InnoDB
-  DEFAULT CHARSET = utf8mb4
-  DEFAULT COLLATE = utf8mb4_unicode_ci;
+) ENGINE InnoDB DEFAULT CHARSET = utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
 
 INSERT IGNORE INTO `#__ars_environments` (`id`, `title`, `xmltitle`)
 VALUES (1, 'Joomla! 1.5', 'joomla/1.5'),

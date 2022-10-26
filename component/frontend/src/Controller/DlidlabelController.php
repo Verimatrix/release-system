@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2021 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -10,38 +10,36 @@ namespace Akeeba\Component\ARS\Site\Controller;
 defined('_JEXEC') or die;
 
 use Akeeba\Component\ARS\Administrator\Controller\DlidlabelController as AdminDlidlabelController;
-use Akeeba\Component\ARS\Administrator\Table\DlidlabelTable;
-use Joomla\CMS\Language\Text;
+use Akeeba\Component\ARS\Administrator\Controller\Mixin\ReturnURLAware;
+use Joomla\CMS\Router\Route;
 
 class DlidlabelController extends AdminDlidlabelController
 {
-	public function onBeforeMain()
+	use ReturnURLAware {
+		ReturnURLAware::getRedirectToItemAppend as applyReturnURLOnItemAppend;
+	}
+
+	/**
+	 * Gets the URL arguments to append to an item redirect.
+	 *
+	 * @param   integer  $recordId  The primary key id for the item.
+	 * @param   string   $urlVar    The name of the URL variable for the id.
+	 *
+	 * @return  string  The arguments to append to the redirect URL.
+	 *
+	 * @since   7.0.6
+	 */
+	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
-		$user = $this->app->getIdentity();
-		$id   = $this->input->getInt('id', 0);
+		$ret    = $this->applyReturnURLOnItemAppend($recordId, $urlVar);
+		$Itemid = $this->input->get('Itemid', null);
 
-		if ($user->guest)
+		if (is_numeric($Itemid) && ($Itemid > 0))
 		{
-			throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+			$ret .= '&Itemid=' . urlencode((int) $Itemid);
 		}
 
-		if (!$id)
-		{
-			return;
-		}
-
-		/** @var DlidlabelTable $dlidTable */
-		$dlidTable = $this->getModel()->getTable();
-
-		if (!$dlidTable->load($id))
-		{
-			throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
-		}
-
-		if ($dlidTable->user_id != $user->id)
-		{
-			throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
-		}
+		return $ret;
 	}
 
 	protected function allowAdd($data = [])
@@ -73,5 +71,24 @@ class DlidlabelController extends AdminDlidlabelController
 		return ($user->guest != 1) && ($user_id == $user->id);
 	}
 
+	protected function onBeforeExecute(&$task)
+	{
+		$returnUrl                  = $this->getReturnUrl();
+		$this->getView()->returnURL = $returnUrl ?: base64_encode(Route::_('index.php?option=com_ars&view=dlidlabels'));
+	}
 
+	protected function onAfterExecute($task)
+	{
+		switch ($task)
+		{
+			case 'main':
+			case 'edit':
+			case 'add':
+				break;
+
+			default:
+				$this->applyReturnUrl();
+				break;
+		}
+	}
 }

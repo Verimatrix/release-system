@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2021 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -18,7 +18,7 @@ use Joomla\CMS\Language\Text;
 
 [$downloadUrl, $directLink] = $this->getItemUrl($item);
 $directLink    = $this->directlink && $directLink;
-$directLinkURL = $this->getDirectLink($item, $downloadUrl);
+$directLinkURL = $directLink ? $this->getDirectLink($item, $downloadUrl) : '';
 
 HTMLHelper::_('bootstrap.collapse', '.ars-collapse');
 

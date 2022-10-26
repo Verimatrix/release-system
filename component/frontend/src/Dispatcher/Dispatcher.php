@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2021 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -43,5 +43,21 @@ class Dispatcher extends BackendDispatcher
 		// Finally, load our 'common' preset
 		$document->getWebAssetManager()
 			->usePreset('com_ars.frontend');
+	}
+
+	protected function applyViewAndController(): void
+	{
+		parent::applyViewAndController();
+
+		$view       = $this->input->get('view');
+
+		// The newdlidlabel view is an alias to the dlidlabel view
+		if ($view == 'newdlidlabel')
+		{
+			$this->input->set('view', 'dlidlabel');
+			$this->input->set('controller', 'dlidlabel');
+			$this->input->set('layout', 'edit');
+			$this->input->set('id', null);
+		}
 	}
 }

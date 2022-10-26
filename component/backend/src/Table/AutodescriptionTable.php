@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2021 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -91,6 +91,11 @@ class AutodescriptionTable extends AbstractTable
 
 	protected function onBeforeBind(&$src, &$ignore = [])
 	{
+		if (is_object($src))
+		{
+			$src = (array) $src;
+		}
+
 		if (isset($src['environments']) && !is_array($src['environments']))
 		{
 			$source              = $src['environments'] ?? '[]';

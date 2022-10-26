@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2021 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -27,7 +27,7 @@ class PlgWebservicesArs extends CMSPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	 * Registers com_banners's API's routes in the application
+	 * Registers the API routes in the application
 	 *
 	 * @param   ApiRouter  &$router  The API Routing object
 	 *

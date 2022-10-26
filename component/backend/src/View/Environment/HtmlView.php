@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2021 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -70,16 +70,8 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::title(Text::_('COM_ARS_TITLE_ENVIRONMENTS_' . ($isNew ? 'ADD' : 'EDIT')), 'icon-ars');
 
-		$toolbarButtons = [];
-
-		// If not checked out, can save the item.
-		$toolbarButtons[] = ['apply', 'environment.apply'];
-		$toolbarButtons[] = ['save', 'environment.save'];
-
-		ToolbarHelper::saveGroup(
-			$toolbarButtons,
-			'btn-success'
-		);
+		ToolbarHelper::apply('environment.apply');
+		ToolbarHelper::save('environment.save');
 
 		ToolbarHelper::cancel('environment.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
 	}
