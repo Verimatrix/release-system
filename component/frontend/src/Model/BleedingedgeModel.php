@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2023 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -15,13 +15,13 @@ use Akeeba\Component\ARS\Administrator\Table\ReleaseTable;
 use Exception;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 
+#[\AllowDynamicProperties]
 class BleedingedgeModel extends BaseDatabaseModel
 {
 	/**
@@ -81,7 +81,7 @@ class BleedingedgeModel extends BaseDatabaseModel
 		// We will now prune releases based on the existence of their files, their age and their count.
 		$known_folders = [];
 
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__ars_releases'))
@@ -151,7 +151,7 @@ class BleedingedgeModel extends BaseDatabaseModel
 				array_filter($releases, function (ReleaseTable $release) use ($targetTimestamp) {
 					try
 					{
-						return (new Date($release->created))->getTimestamp() <= $targetTimestamp;
+						return (clone Factory::getDate($release->created))->getTimestamp() <= $targetTimestamp;
 					}
 					catch (Exception $e)
 					{
@@ -231,7 +231,7 @@ class BleedingedgeModel extends BaseDatabaseModel
 						$notes         = $this->coloriseChangelog($changeLogData, $first_changelog);
 					}
 
-					$jNow = new Date();
+					$jNow = clone Factory::getDate();
 
 					$alias = ApplicationHelper::stringURLSafe($folder);
 
@@ -367,7 +367,7 @@ class BleedingedgeModel extends BaseDatabaseModel
 		}
 
 		// Get the items
-		$db         = $this->getDbo();
+		$db         = $this->getDatabase();
 		$release_id = $release->id;
 		$query      = $db->getQuery(true)
 			->select('*')
@@ -423,7 +423,7 @@ class BleedingedgeModel extends BaseDatabaseModel
 				continue;
 			}
 
-			$jNow = new Date();
+			$jNow = clone Factory::getDate();
 			$data = [
 				'id'          => 0,
 				'release_id'  => $release->id,
@@ -644,7 +644,7 @@ class BleedingedgeModel extends BaseDatabaseModel
 			);
 
 		// Get the items
-		$db         = $this->getDbo();
+		$db         = $this->getDatabase();
 		$release_id = $release->id;
 		$query      = $db->getQuery(true)
 			->select('*')

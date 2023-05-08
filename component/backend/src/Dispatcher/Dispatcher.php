@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2023 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -9,7 +9,7 @@ namespace Akeeba\Component\ARS\Administrator\Dispatcher;
 
 defined('_JEXEC') || die;
 
-use Akeeba\Component\ARS\Administrator\Mixin\TriggerEvent;
+use Akeeba\Component\ARS\Administrator\Mixin\TriggerEventTrait;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 use Joomla\CMS\Document\HtmlDocument;
@@ -17,7 +17,7 @@ use Throwable;
 
 class Dispatcher extends ComponentDispatcher
 {
-	use TriggerEvent;
+	use TriggerEventTrait;
 
 	protected $defaultController = 'controlpanel';
 
@@ -28,18 +28,23 @@ class Dispatcher extends ComponentDispatcher
 
 	public function dispatch()
 	{
-		// Check the minimum supported PHP version
-		$minPHPVersion = '7.3.0';
-		$softwareName  = 'Akeeba Release System';
-		$silentResults = $this->app->isClient('site');
-
-		if (!@include_once JPATH_ADMINISTRATOR . '/components/com_ars/tmpl/common/wrongphp.php')
-		{
-			return;
-		}
-
 		try
 		{
+			// Check the minimum supported PHP version
+			$minPHPVersion = '8.0.0';
+			$softwareName  = 'Akeeba Release System';
+
+			if (version_compare(PHP_VERSION, $minPHPVersion, 'lt'))
+			{
+				throw new \RuntimeException(
+					sprintf(
+						'%s requires PHP %s or later.',
+						$softwareName,
+						$minPHPVersion
+					)
+				);
+			}
+
 			$this->triggerEvent('onBeforeDispatch');
 
 			parent::dispatch();

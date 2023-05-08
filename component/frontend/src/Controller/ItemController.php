@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2023 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -10,10 +10,10 @@ namespace Akeeba\Component\ARS\Site\Controller;
 
 defined('_JEXEC') or die;
 
-use Akeeba\Component\ARS\Administrator\Mixin\AssertionAware;
 use Akeeba\Component\ARS\Administrator\Mixin\ControllerEvents;
+use Akeeba\Component\ARS\Administrator\Mixin\TableAssertionTrait;
 use Akeeba\Component\ARS\Administrator\Table\LogTable;
-use Akeeba\Component\ARS\Site\Controller\Mixin\CRIAccessAware;
+use Akeeba\Component\ARS\Site\Mixin\ControllerCRIAccessTrait;
 use Akeeba\Component\ARS\Site\Model\ItemModel;
 use Exception;
 use Joomla\CMS\Application\CMSApplication;
@@ -28,8 +28,8 @@ use RuntimeException;
 class ItemController extends BaseController
 {
 	use ControllerEvents;
-	use CRIAccessAware;
-	use AssertionAware;
+	use ControllerCRIAccessTrait;
+	use TableAssertionTrait;
 
 	public function __construct($config = [], MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
 	{
@@ -95,6 +95,7 @@ class ItemController extends BaseController
 		catch (Exception $e)
 		{
 			$effectiveId = isset($item) ? ($item->id ?? 0) : 0;
+			$effectiveId = $effectiveId ?: $id;
 			$this->logFailedDownloadAttempt($effectiveId);
 
 			if (empty($this->redirect))

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2023 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -50,7 +50,10 @@ $link = $showLink
 	? str_replace(['[USER_ID]', '[USERNAME]', '[NAME]', '[EMAIL]'], [$user_id, $username, $name, $email], $link)
 	: '';
 
-$gravatarUrl = sprintf('https://www.gravatar.com/avatar/%s?s=%s', md5(strtolower(trim($email))), $gravatarSize)
+$gravatarUrl =
+	empty($email)
+	? ''
+	: sprintf('https://www.gravatar.com/avatar/%s?s=%s', md5(strtolower(trim($email))), $gravatarSize)
 
 ?>
 <?php if ($showGravatar && !$showName && !$showUsername && !$showUserId && !$showEmail): ?>

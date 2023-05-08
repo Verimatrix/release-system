@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2023 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -9,9 +9,9 @@ namespace Akeeba\Component\ARS\Administrator\Table;
 
 defined('_JEXEC') or die;
 
-use Akeeba\Component\ARS\Administrator\Mixin\AssertionAware;
-use Akeeba\Component\ARS\Administrator\Table\Mixin\ColumnAliasAware;
-use Akeeba\Component\ARS\Administrator\Table\Mixin\CreateModifyAware;
+use Akeeba\Component\ARS\Administrator\Mixin\TableAssertionTrait;
+use Akeeba\Component\ARS\Administrator\Mixin\TableColumnAliasTrait;
+use Akeeba\Component\ARS\Administrator\Mixin\TableCreateModifyTrait;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
@@ -55,12 +55,12 @@ use Joomla\Database\DatabaseDriver;
  */
 class ItemTable extends AbstractTable
 {
-	use CreateModifyAware
+	use TableCreateModifyTrait
 	{
-		CreateModifyAware::onBeforeStore as onBeforeStoreCreateModifyAware;
+		TableCreateModifyTrait::onBeforeStore as onBeforeStoreCreateModifyAware;
 	}
-	use AssertionAware;
-	use ColumnAliasAware;
+	use TableAssertionTrait;
+	use TableColumnAliasTrait;
 
 	/**
 	 * Indicates that columns fully support the NULL value in the database
@@ -297,6 +297,10 @@ class ItemTable extends AbstractTable
 
 		// Apply access
 		$this->access = $this->access !== 1 || !$auto->access ? $this->access : $auto->access ;
+
+        // Apply unauthorized links
+		$this->show_unauth_links = $this->show_unauth_links == 1 || !$auto->show_unauth_links ? $this->show_unauth_links : $auto->show_unauth_links ;
+		$this->redirect_unauth   = $this->redirect_unauth ?: $auto->redirect_unauth ;
 
 		// Apply description, if necessary
 		$stripDesc = trim(strip_tags($this->description));

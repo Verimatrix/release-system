@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2023 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -9,7 +9,7 @@ namespace Akeeba\Component\ARS\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Akeeba\Component\ARS\Administrator\Controller\Mixin\CopyAware;
+use Akeeba\Component\ARS\Administrator\Mixin\ControllerCopyTrait;
 use Akeeba\Component\ARS\Administrator\Mixin\ControllerEvents;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Controller\AdminController;
@@ -19,7 +19,7 @@ use Joomla\Input\Input;
 class LogsController extends AdminController
 {
 	use ControllerEvents;
-	use CopyAware;
+	use ControllerCopyTrait;
 
 	protected $text_prefix = 'COM_ARS_LOGS';
 

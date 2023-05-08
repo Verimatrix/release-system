@@ -1,17 +1,17 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2023 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
-namespace Akeeba\Component\ARS\Administrator\Controller\Mixin;
+namespace Akeeba\Component\ARS\Administrator\Mixin;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Uri\Uri;
 
-trait ReturnURLAware
+trait ControllerReturnURLTrait
 {
 	/** @inheritdoc */
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')

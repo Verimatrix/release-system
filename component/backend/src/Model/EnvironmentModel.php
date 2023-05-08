@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2023 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -9,19 +9,16 @@ namespace Akeeba\Component\ARS\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Akeeba\Component\ARS\Administrator\Model\Mixin\CopyAware;
-use Akeeba\Component\ARS\Administrator\Table\CategoryTable;
-use Exception;
+use Akeeba\Component\ARS\Administrator\Mixin\ModelCopyTrait;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormFactoryInterface;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\Database\ParameterType;
 
+#[\AllowDynamicProperties]
 class EnvironmentModel extends AdminModel
 {
-	use CopyAware;
+	use ModelCopyTrait;
 
 	/**
 	 * Batch copy/move command. If set to false, the batch copy/move command is not supported

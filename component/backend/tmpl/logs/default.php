@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2023 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -111,7 +111,7 @@ $userLayout = new FileLayout('akeeba.ars.common.user', JPATH_ADMINISTRATOR . '/c
 							?>
 							<tr class="row<?= $i++ % 2; ?>">
 								<td class="text-center">
-									<?= HTMLHelper::_('grid.id', $i, $item->id, !(empty($item->checked_out_time) || ($item->checked_out_time === $nullDate)), 'cid', 'cb', $item->item_title); ?>
+									<?= HTMLHelper::_('grid.id', $i, $item->id, !(empty($item->checked_out_time) || ($item->checked_out_time === $nullDate)), 'cid', 'cb', $item->item_title ?? ''); ?>
 								</td>
 
 								<?php if (!$hasItemFilter || !$hasReleaseFilter || !$hasCategoryFilter): ?>

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2023 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -10,9 +10,9 @@ namespace Akeeba\Component\ARS\Site\Controller;
 defined('_JEXEC') or die;
 
 use Akeeba\Component\ARS\Administrator\Mixin\ControllerEvents;
-use Akeeba\Component\ARS\Administrator\Mixin\RegisterControllerTasks;
-use Akeeba\Component\ARS\Site\Controller\Mixin\ARSViewParamsAware;
-use Akeeba\Component\ARS\Site\Controller\Mixin\CRIAccessAware;
+use Akeeba\Component\ARS\Administrator\Mixin\ControllerRegisterTasksTrait;
+use Akeeba\Component\ARS\Site\Mixin\ControllerARSViewParamsTrait;
+use Akeeba\Component\ARS\Site\Mixin\ControllerCRIAccessTrait;
 use Akeeba\Component\ARS\Site\Model\CategoriesModel;
 use Akeeba\Component\ARS\Site\Model\ItemsModel;
 use Akeeba\Component\ARS\Site\Model\ReleasesModel;
@@ -21,10 +21,10 @@ use Joomla\CMS\MVC\Controller\BaseController;
 
 class LatestController extends BaseController
 {
-	use RegisterControllerTasks;
+	use ControllerRegisterTasksTrait;
 	use ControllerEvents;
-	use ARSViewParamsAware;
-	use CRIAccessAware;
+	use ControllerARSViewParamsTrait;
+	use ControllerCRIAccessTrait;
 
 	public function main($cachable = false, $urlparams = [])
 	{

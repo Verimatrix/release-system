@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2023 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -30,6 +30,7 @@ $streamTypeMap = [
 $app = Factory::getApplication();
 $params         = $app->getParams('com_ars');
 $minifyXML      = $params->get('minify_xml', 1) == 1;
+$liarMode       = $params->get('liar_mode', 1) == 1;
 
 $updateStream = new SimpleXMLElement("<updates />");
 
@@ -46,7 +47,7 @@ foreach ($this->items as $item)
 		continue;
 	}
 
-	$parsedPlatforms = $this->getParsedPlatforms($item);
+	$parsedPlatforms = $this->getParsedPlatforms($item, true, $liarMode);
 
 	foreach ($parsedPlatforms['platforms'] as $platform)
 	{

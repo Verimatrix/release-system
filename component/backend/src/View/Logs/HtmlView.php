@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2023 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -9,7 +9,7 @@ namespace Akeeba\Component\ARS\Administrator\View\Logs;
 
 defined('_JEXEC') or die;
 
-use Akeeba\Component\ARS\Administrator\Mixin\LoadAnyTemplate;
+use Akeeba\Component\ARS\Administrator\Mixin\ViewLoadAnyTemplateTrait;
 use Akeeba\Component\ARS\Administrator\Model\ReleasesModel;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -23,7 +23,7 @@ use Joomla\Registry\Registry;
 
 class HtmlView extends BaseHtmlView
 {
-	use LoadAnyTemplate;
+	use ViewLoadAnyTemplateTrait;
 
 	/**
 	 * The search tools form
@@ -95,7 +95,7 @@ class HtmlView extends BaseHtmlView
 
 		if ($user->authorise('core.delete', 'com_ars'))
 		{
-			$toolbar->delete('releases.delete')
+			$toolbar->delete('logs.delete')
 				->message('JGLOBAL_CONFIRM_DELETE')
 				->listCheck(true);
 		}

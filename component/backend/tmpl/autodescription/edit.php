@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2023 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -33,6 +33,8 @@ $user = Factory::getApplication()->getIdentity();
 					<?= $this->form->getField('packname')->renderField(); ?>
 					<?= $this->form->getField('title')->renderField(); ?>
 					<?= $this->form->getField('access')->renderField(); ?>
+					<?= $this->form->getField('show_unauth_links')->renderField(); ?>
+					<?= $this->form->getField('redirect_unauth')->renderField(); ?>
 					<?= $this->form->getField('environments')->renderField(); ?>
 					<?= $this->form->getField('published')->renderField(); ?>
 				</div>

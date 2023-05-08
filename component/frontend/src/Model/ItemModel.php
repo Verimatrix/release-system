@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2023 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -9,7 +9,7 @@ namespace Akeeba\Component\ARS\Site\Model;
 
 defined('_JEXEC') or die;
 
-use Akeeba\Component\ARS\Administrator\Mixin\AssertionAware;
+use Akeeba\Component\ARS\Administrator\Mixin\TableAssertionTrait;
 use Akeeba\Component\ARS\Administrator\Table\CategoryTable;
 use Akeeba\Component\ARS\Administrator\Table\ItemTable;
 use Akeeba\Component\ARS\Administrator\Table\ReleaseTable;
@@ -29,9 +29,10 @@ use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Database\ParameterType;
 use RuntimeException;
 
+#[\AllowDynamicProperties]
 class ItemModel extends BaseDatabaseModel
 {
-	use AssertionAware;
+	use TableAssertionTrait;
 
 	private const CHUNK_SIZE = 1048576;
 
@@ -439,12 +440,13 @@ class ItemModel extends BaseDatabaseModel
 		}
 
 		$isPrimary = empty($user_id) ? 1 : 0;
-		$db        = $this->getDbo();
+		$db        = $this->getDatabase();
 		$query     = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__ars_dlidlabels'))
 			->where($db->quoteName('dlid') . ' = :dlid')
 			->where($db->quoteName('primary') . ' = :isPrimary')
+            ->where($db->quoteName('published') . ' = 1')
 			->bind(':isPrimary', $isPrimary, ParameterType::INTEGER)
 			->bind(':dlid', $downloadId, ParameterType::STRING);
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2023 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -9,14 +9,15 @@ namespace Akeeba\Component\ARS\Administrator\Table;
 
 defined('_JEXEC') or die;
 
-use Akeeba\Component\ARS\Administrator\Mixin\TriggerEvent;
+use Akeeba\Component\ARS\Administrator\Mixin\TriggerEventTrait;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Event\DispatcherInterface;
 
+#[\AllowDynamicProperties]
 abstract class AbstractTable extends Table
 {
-	use TriggerEvent;
+	use TriggerEventTrait;
 
 	public function __construct($table, $key, DatabaseDriver $db, DispatcherInterface $dispatcher = null)
 	{

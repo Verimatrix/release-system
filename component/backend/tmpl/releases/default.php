@@ -1,14 +1,13 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2023 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
 defined('_JEXEC') || die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
@@ -182,7 +181,7 @@ $cParams = ComponentHelper::getParams('com_ars');
 								<?php endif; ?>
 
 								<td class="text-center">
-									<?= HTMLHelper::_('jgrid.published', $item->published, $i, 'categories.', $user->authorise('core.edit.state', 'com_ars'), 'cb'); ?>
+									<?= HTMLHelper::_('jgrid.published', $item->published, $i, 'releases.', $user->authorise('core.edit.state', 'com_ars'), 'cb'); ?>
 								</td>
 
 								<td class="w-1 d-none d-md-table-cell">

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2023 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -9,7 +9,7 @@ namespace Akeeba\Component\ARS\Administrator\View\Items;
 
 defined('_JEXEC') or die;
 
-use Akeeba\Component\ARS\Administrator\Mixin\LoadAnyTemplate;
+use Akeeba\Component\ARS\Administrator\Mixin\ViewLoadAnyTemplateTrait;
 use Akeeba\Component\ARS\Administrator\Model\ReleasesModel;
 use Akeeba\Component\ARS\Administrator\Table\ReleaseTable;
 use Joomla\CMS\Factory;
@@ -25,7 +25,7 @@ use Joomla\Registry\Registry;
 
 class HtmlView extends BaseHtmlView
 {
-	use LoadAnyTemplate;
+	use ViewLoadAnyTemplateTrait;
 
 	/**
 	 * The search tools form

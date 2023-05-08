@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2023 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -11,6 +11,7 @@ defined('_JEXEC') || die;
 
 use Akeeba\Component\ARS\Administrator\Model\CategoriesModel as AdminCategoriesModel;
 
+#[\AllowDynamicProperties]
 class CategoriesModel extends AdminCategoriesModel
 {
 

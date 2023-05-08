@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2023 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -11,22 +11,17 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-// PHP version warning
-$softwareName          = 'Akeeba Release System';
-$class_priority_low    = 'alert alert-info';
-$class_priority_medium = 'alert alert-warning';
-$class_priority_high   = 'alert alert-danger';
-
-require JPATH_ADMINISTRATOR . '/components/com_ars/tmpl/common/phpversion_warning.php';
 ?>
 
 <?php if ($this->needsMenuItem): ?>
-	<div class="alert alert-info">
-		<h4>
+	<details class="alert alert-info">
+		<summary class="h3 fs-3 m-0 p-0 text-danger">
 			<?= Text::_('COM_ARS_CPANEL_MISSING_CATEGORIES_MENU_HEAD') ?>
-		</h4>
-		<?= Text::_('COM_ARS_CPANEL_MISSING_CATEGORIES_MENU') ?>
-	</div>
+		</summary>
+		<p>
+			<?= Text::_('COM_ARS_CPANEL_MISSING_CATEGORIES_MENU') ?>
+		</p>
+	</details>
 <?php endif ?>
 
 <div class="row">

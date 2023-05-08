@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2023 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -9,9 +9,9 @@ namespace Akeeba\Component\ARS\Administrator\Mixin;
 
 defined('_JEXEC') || die;
 
-trait TaskBasedEvents
+trait ViewTaskBasedEventsTrait
 {
-	use TriggerEvent;
+	use TriggerEventTrait;
 
 	public function display($tpl = null)
 	{

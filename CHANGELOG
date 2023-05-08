@@ -1,12 +1,26 @@
 <?php die(); ?>
+Akeeba Release System 7.2.0
+================================================================================
++ Liar mode
++ Add show unauthorized links options to automatic item description (gh-222)
+# [HIGH] Disabled Download IDs were still considered valid
+# [HIGH] Show Unauthorised Links results in downloading the HTML page of the unauthorized item redirection instead of redirecting (gh-220)
+# [MEDIUM] Plugins not enabled on clean installation
+# [LOW] Cannot publish/unpublish releases and items using the checkmark icons in the backend
+# [LOW] Wrong grammatical case (nominative instead of genitive) in months in some languages e.g. Greek
+
 Akeeba Release System 7.1.0
 ================================================================================
 + Dashboard
+- PHP version warnings
 ~ Use fancy select for category selection
 ~ Save and Save & Close buttons are no longer grouped
-~ Minimum PHP version 7.4
+~ Minimum PHP version 8.0
 ~ Minimum Joomla version 4.2
 ~ Refactored SEF URL Router
+~ Warnings are now DETAILS elements
+# [HIGH] Non-interactive downloads are not logged
+# [HIGH] Blocked unauthorised downloads are not logged
 # [LOW] SEF URL handler may throw PHP warnings depending on your menu structure
 
 Akeeba Release System 7.0.8

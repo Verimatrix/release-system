@@ -1,20 +1,19 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2023 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
-namespace Akeeba\Component\ARS\Administrator\Controller\Mixin;
+namespace Akeeba\Component\ARS\Administrator\Mixin;
 
 
-use Akeeba\Component\ARS\Administrator\Mixin\ControllerEvents;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Utilities\ArrayHelper;
 
-trait CopyAware
+trait ControllerCopyTrait
 {
 	use ControllerEvents;
 

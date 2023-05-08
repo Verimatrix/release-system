@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2023 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -9,8 +9,8 @@ namespace Akeeba\Component\ARS\Administrator\Table;
 
 defined('_JEXEC') or die;
 
-use Akeeba\Component\ARS\Administrator\Mixin\AssertionAware;
-use Akeeba\Component\ARS\Administrator\Table\Mixin\CreateModifyAware;
+use Akeeba\Component\ARS\Administrator\Mixin\TableAssertionTrait;
+use Akeeba\Component\ARS\Administrator\Mixin\TableCreateModifyTrait;
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
@@ -46,8 +46,8 @@ use Joomla\Database\DatabaseDriver;
  */
 class CategoryTable extends AbstractTable
 {
-	use CreateModifyAware;
-	use AssertionAware;
+	use TableCreateModifyTrait;
+	use TableAssertionTrait;
 
 	/**
 	 * Indicates that columns fully support the NULL value in the database

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2023 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -22,7 +22,7 @@ use Throwable;
  *
  * @since  9.0.0
  */
-trait LoadAnyTemplate
+trait ViewLoadAnyTemplateTrait
 {
 	/**
 	 * Load any view template of the current component.

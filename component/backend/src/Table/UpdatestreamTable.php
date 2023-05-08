@@ -1,16 +1,16 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2023 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
 namespace Akeeba\Component\ARS\Administrator\Table;
 
 
-use Akeeba\Component\ARS\Administrator\Mixin\AssertionAware;
-use Akeeba\Component\ARS\Administrator\Table\Mixin\ColumnAliasAware;
-use Akeeba\Component\ARS\Administrator\Table\Mixin\CreateModifyAware;
+use Akeeba\Component\ARS\Administrator\Mixin\TableAssertionTrait;
+use Akeeba\Component\ARS\Administrator\Mixin\TableColumnAliasTrait;
+use Akeeba\Component\ARS\Administrator\Mixin\TableCreateModifyTrait;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseDriver;
@@ -40,9 +40,9 @@ use Joomla\Event\DispatcherInterface;
  */
 class UpdatestreamTable extends AbstractTable
 {
-	use CreateModifyAware;
-	use AssertionAware;
-	use ColumnAliasAware;
+	use TableCreateModifyTrait;
+	use TableAssertionTrait;
+	use TableColumnAliasTrait;
 
 	public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
 	{

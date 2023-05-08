@@ -1,14 +1,13 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2023 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
 namespace Akeeba\Component\ARS\Administrator\Service\Html;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -23,7 +22,7 @@ class AkeebaReleaseSystem
 
 	public static function formatDate($date, $local = true, $dateFormat = null)
 	{
-		$date = new Date($date, 'GMT');
+		$date = clone Factory::getDate($date, 'GMT');
 
 		if ($local)
 		{
@@ -94,7 +93,7 @@ class AkeebaReleaseSystem
 		}
 
 		/** @var DatabaseDriver $db */
-		$db = Factory::getContainer()->get('DatabaseDriver');
+		$db    = Factory::getContainer()->get('DatabaseDriver');
 		$query = $db->getQuery(true)
 			->select($db->quoteName('dlid'))
 			->from($db->quoteName('#__ars_dlidlabels'))

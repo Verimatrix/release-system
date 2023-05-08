@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2023 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -9,7 +9,7 @@ namespace Akeeba\Component\ARS\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Akeeba\Component\ARS\Administrator\Model\Mixin\CopyAware;
+use Akeeba\Component\ARS\Administrator\Mixin\ModelCopyTrait;
 use Akeeba\Component\ARS\Administrator\Table\ItemTable;
 use Akeeba\Component\ARS\Administrator\Table\ReleaseTable;
 use Exception;
@@ -22,9 +22,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 
+#[\AllowDynamicProperties]
 class ItemModel extends AdminModel
 {
-	use CopyAware;
+	use ModelCopyTrait;
 
 	/**
 	 * Batch copy/move command. If set to false, the batch copy/move command is not supported
@@ -191,7 +192,7 @@ class ItemModel extends AdminModel
 		$fltRelease   = $app->getUserState('com_ars.items.filter.release_id');
 		$fltPublished = $app->getUserState('com_ars.items.filter.published');
 
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		if (is_numeric($fltRelease))
 		{

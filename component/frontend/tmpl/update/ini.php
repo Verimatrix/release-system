@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2023 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -9,7 +9,7 @@ defined('_JEXEC') or die();
 
 /** @var \Akeeba\Component\ARS\Site\View\Update\IniView $this */
 
-use Joomla\CMS\Date\Date;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
 
@@ -27,7 +27,7 @@ if (count($this->items))
 	}, $parsedPlatforms['php']));
 
 	$moreURL = Route::_('index.php?option=com_ars&view=items&&release_id=' . $item->release_id . '&category_id=' . $item->category, false, Route::TLS_IGNORE, true);
-	$date    = new Date($item->created);
+	$date    = clone Factory::getDate($item->created);
 }
 
 @ob_end_clean();

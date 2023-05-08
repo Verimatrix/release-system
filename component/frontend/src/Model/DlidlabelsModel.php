@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2023 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -11,6 +11,7 @@ namespace Akeeba\Component\ARS\Site\Model;
 use Akeeba\Component\ARS\Administrator\Table\DlidlabelTable;
 use Joomla\CMS\Factory;
 
+#[\AllowDynamicProperties]
 class DlidlabelsModel extends \Akeeba\Component\ARS\Administrator\Model\DlidlabelsModel
 {
 	public function myDownloadID($user = null): ?string
@@ -22,7 +23,7 @@ class DlidlabelsModel extends \Akeeba\Component\ARS\Administrator\Model\Dlidlabe
 			return '';
 		}
 
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__ars_dlidlabels'))

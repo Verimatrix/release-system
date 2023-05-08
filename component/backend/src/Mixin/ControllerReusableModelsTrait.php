@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2023 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -13,7 +13,7 @@ use Joomla\CMS\MVC\View\ViewInterface;
 
 defined('_JEXEC') || die;
 
-trait ReusableModels
+trait ControllerReusableModelsTrait
 {
 	static $_models = [];
 

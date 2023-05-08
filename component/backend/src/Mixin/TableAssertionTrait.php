@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   AkeebaReleaseSystem
- * @copyright Copyright (c)2010-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @copyright Copyright (c)2010-2023 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license   GNU General Public License version 3, or later
  */
 
@@ -18,7 +18,7 @@ use RuntimeException;
  * This is meant to throw RuntimeErrors whenever a configuration or table column value is provided that doesn't mean a
  * set of hard requirements. Typically used in a table's check() method.
  */
-trait AssertionAware
+trait TableAssertionTrait
 {
 	/**
 	 * Make sure $condition is true or throw a RuntimeException with the $message language string
