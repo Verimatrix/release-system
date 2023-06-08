@@ -9,6 +9,7 @@ namespace Akeeba\Component\ARS\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Akeeba\Component\ARS\Administrator\Helper\VmxFolder;
 use Akeeba\Component\ARS\Administrator\Table\CategoryTable;
 use Akeeba\Component\ARS\Administrator\Table\ReleaseTable;
 use Akeeba\Component\ARS\Site\Model\ItemsModel;
@@ -59,7 +60,7 @@ class ReleasesModel extends ListModel
 	 *
 	 * @return  string|null  The directory or NULL if it's not defined or does not exist
 	 * @throws  Exception
-	 * @see     Items::getFilesOptions
+	 * @see     ItemsModel::getFilesOptions
 	 */
 	public function directoryForRelease(int $release_id): ?string
 	{
@@ -86,9 +87,10 @@ class ReleasesModel extends ListModel
 		}
 
 		// Get which directory to use
-		$directory = JPATH_ROOT . '/' . $category->directory;
-
-		if (!Folder::exists($directory))
+		//-VMX- $directory = JPATH_ROOT . '/' . $category->directory;
+		$directory = $category->directory;
+		
+		if (!VmxFolder::exists($directory))
 		{
 			return null;
 		}

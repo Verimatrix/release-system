@@ -66,7 +66,7 @@ class ItemsModel extends ListModel
 	 * @param   int  $item_id     The numeric ID of the current item. Leave 0 if it's a new item.
 	 *
 	 * @return  array  Array of JHtml options.
-	 * @see     Releases::directoryForRelease()
+	 * @see     ReleasesModel::directoryForRelease()
 	 */
 	public function getFilesOptions(int $release_id, int $item_id = 0): array
 	{

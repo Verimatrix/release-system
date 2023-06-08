@@ -17,3 +17,11 @@
 
 # phpStorm HTTP Client private config file
 http-client.private.env.json
+
+*.DS_Store
+.buildpath
+.idea
+.project
+.settings/
+composer-ORIG.json
+my_custom_patch_file.patch

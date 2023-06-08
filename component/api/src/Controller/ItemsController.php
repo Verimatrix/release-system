@@ -98,6 +98,7 @@ class ItemsController extends ApiController
 			return '';
 		}
 
+		//-VMX- $folder = JPATH_ROOT . '/' . $category->directory;
 		$folder = JPATH_ROOT . '/' . $category->directory;
 		if (!is_dir($folder)) {
 			return '';
