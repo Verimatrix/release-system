@@ -9,6 +9,7 @@ namespace Akeeba\Component\ARS\Administrator\Table;
 
 defined('_JEXEC') or die;
 
+use Akeeba\Component\ARS\Administrator\Helper\VmxFolder;
 use Akeeba\Component\ARS\Administrator\Mixin\TableAssertionTrait;
 use Akeeba\Component\ARS\Administrator\Mixin\TableColumnAliasTrait;
 use Akeeba\Component\ARS\Administrator\Mixin\TableCreateModifyTrait;
@@ -190,9 +191,10 @@ class ItemTable extends AbstractTable
 
 				if (!empty($folder))
 				{
-					$folder = JPATH_ROOT . '/' . $folder;
+				    
+				    //-VMX- $folder = JPATH_ROOT . '/' . $folder;
 
-					if (!Folder::exists($folder))
+					if (!VmxFolder::exists($folder))
 					{
 						$folder = null;
 					}

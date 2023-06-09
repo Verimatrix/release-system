@@ -9,6 +9,7 @@ namespace Akeeba\Component\ARS\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Akeeba\Component\ARS\Administrator\Helper\VmxFolder;
 use Akeeba\Component\ARS\Administrator\Mixin\TableAssertionTrait;
 use Akeeba\Component\ARS\Administrator\Table\CategoryTable;
 use Akeeba\Component\ARS\Administrator\Table\ItemTable;
@@ -63,19 +64,19 @@ class ItemModel extends BaseDatabaseModel
 		{
 			$folder = $category->directory;
 
-			if (!Folder::exists($folder))
+			/**-VMX- if (!Folder::exists($folder))
 			{
 				$folder = JPATH_ROOT . '/' . $folder;
-			}
+			} */
 
-			if (!Folder::exists($folder))
+			if (!VmxFolder::exists($folder))
 			{
 				throw new RuntimeException();
 			}
 
 			$filename = $folder . '/' . $item->filename;
 
-			if (!File::exists($filename))
+			if (!is_file($filename))
 			{
 				throw new RuntimeException();
 			}
@@ -118,19 +119,19 @@ class ItemModel extends BaseDatabaseModel
 		{
 			$folder = $category->directory;
 
-			if (!Folder::exists($folder))
+			/**-VMX- if (!Folder::exists($folder))
 			{
 				$folder = JPATH_ROOT . '/' . $folder;
-			}
+			} */
 
-			if (!Folder::exists($folder))
+			if (!VmxFolder::exists($folder))
 			{
 				throw new RuntimeException();
 			}
 
 			$filename = $folder . '/' . $item->filename;
 
-			if (!File::exists($filename))
+			if (!is_file($filename))
 			{
 				throw new RuntimeException();
 			}

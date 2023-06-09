@@ -54,11 +54,12 @@
                 name="directory"
                 type="text"
                 label="COM_ARS_CATEGORIES_FIELD_DIRECTORY"
-                default="arsfiles"
+                default="/var/www/distribution/repos/is"
+        />
+<!-- -VMX-  
                 validate="filePath"
                 exclude="administrator|api|bin|cache|cli|components|includes|language|layouts|libraries|media|modules|plugins|templates|tmp"
-        />
-
+ -->
         <field
                 name="show_unauth_links"
                 type="list"

@@ -22,5 +22,3 @@ http-client.private.env.jsona
 .project
 .settings/
 *.patch
-composer-ORIG.json
-my_custom_patch_file.patch

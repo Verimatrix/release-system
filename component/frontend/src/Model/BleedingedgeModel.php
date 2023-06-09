@@ -9,6 +9,7 @@ namespace Akeeba\Component\ARS\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Akeeba\Component\ARS\Administrator\Helper\VmxFolder;
 use Akeeba\Component\ARS\Administrator\Table\CategoryTable;
 use Akeeba\Component\ARS\Administrator\Table\ItemTable;
 use Akeeba\Component\ARS\Administrator\Table\ReleaseTable;
@@ -240,7 +241,7 @@ class BleedingedgeModel extends BaseDatabaseModel
 						'category_id' => $this->category_id,
 						'version'     => $folder,
 						'alias'       => $alias,
-						'maturity'    => 'alpha',
+						'maturity'    => 'stable',
 						'description' => '',
 						'notes'       => $notes,
 						'access'      => $this->category->access,
@@ -505,11 +506,11 @@ class BleedingedgeModel extends BaseDatabaseModel
 		$folder = $this->category->directory;
 
 		// If it is stored locally, make sure the folder exists
-		if (!Folder::exists($folder))
+		if (!VmxFolder::exists($folder))
 		{
-			$folder = JPATH_ROOT . '/' . $folder;
-
-			if (!Folder::exists($folder))
+			//-VMX- $folder = JPATH_ROOT . '/' . $folder;
+			
+			if (!VmxFolder::exists($folder))
 			{
 				return;
 			}

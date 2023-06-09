@@ -9,6 +9,7 @@ namespace Akeeba\Component\ARS\Administrator\Table;
 
 defined('_JEXEC') or die;
 
+use Akeeba\Component\ARS\Administrator\Helper\VmxFolder;
 use Akeeba\Component\ARS\Administrator\Mixin\TableAssertionTrait;
 use Akeeba\Component\ARS\Administrator\Mixin\TableCreateModifyTrait;
 use Joomla\CMS\Access\Rules;
@@ -113,15 +114,16 @@ class CategoryTable extends AbstractTable
 		$this->assertNotInArray($this->alias, $aliases, 'COM_ARS_CATEGORY_ERR_NEEDS_UNIQUE_SLUG');
 
 		// Check directory
-		$this->directory = rtrim($this->directory, '/');
+		//-VMX- $this->directory = rtrim($this->directory, '/');
 
-		$check = trim($this->directory);
+		//-VMX- $check = trim($this->directory);
 
-		$this->assertNotEmpty($check, 'COM_ARS_CATEGORY_ERR_NEEDS_DIRECTORY');
+		//-VMX- $this->assertNotEmpty($check, 'COM_ARS_CATEGORY_ERR_NEEDS_DIRECTORY');
 
-		$directory = JPATH_SITE . '/' . $this->directory;
-
-		$this->assert(Folder::exists($directory), 'COM_ARS_CATEGORY_ERR_DIRECTORY_NOT_EXISTS');
+		//-VMX- $directory = JPATH_SITE . '/' . $this->directory;
+		$directory = $this->directory;
+		
+		$this->assert(VmxFolder::exists($directory), 'COM_ARS_CATEGORY_ERR_DIRECTORY_NOT_EXISTS');
 
 		// Automatically fix the type
 		if (!in_array($this->type, ['normal', 'bleedingedge']))
